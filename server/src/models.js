@@ -7,8 +7,7 @@ const sequelize = new Sequelize(process.env.TEST_DATABASE || process.env.DATABAS
     dialect: 'postgres'
 });
 const models = {
-    Usuario: sequelize.import('./Usuario/UsuarioModel'),
-    Consagrado: sequelize.import('./Consagrado/ConsagradoModel'),
+    User: sequelize.import('./User/UserModel'),
 };
 Object.keys(models).forEach(key => {
     if ('associate' in models[key]) {
