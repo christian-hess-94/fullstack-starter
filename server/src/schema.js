@@ -1,5 +1,6 @@
 import { gql } from "apollo-server-express";
-import userSchema from "./User/UserSchema";
+import UserSchema from "./User/UserSchema";
+import RoleSchema from "./Role/RoleSchema";
 
 
 const defaultSchema = gql`
@@ -15,4 +16,4 @@ const defaultSchema = gql`
     _:Boolean
   }
 `;
-export default [defaultSchema, userSchema]
+export default [defaultSchema, UserSchema, RoleSchema]

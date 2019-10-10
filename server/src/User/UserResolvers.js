@@ -2,31 +2,43 @@ import jwt from 'jsonwebtoken';
 import { combineResolvers } from 'graphql-resolvers';
 import { AuthenticationError, UserInputError } from 'apollo-server';
 import { isAdmin, isAuthenticated } from '../resolvers/authorization';
-export default {
+const UserResolvers = {
     Query: {
-        users: async (parent, args, { models }) => {
+        readAllUsers: async (parent, args, { models }) => {
             const users = await models.User.findAll()
             return users
         },
-        user: async (parent, { id }, { models }) => {
-            return await models.User.findByPk(id)
-        },
-        me: async (parent, args, { models, me }) => {
-            if (!me) {
+        loggedUser: async (parent, args, { models, loggedUser }) => {
+            if (!loggedUser) {
                 return null
             }
-            return await models.User.findByPk(me.id)
+            return await models.User.findByPk(loggedUser.id)
+        },
+        readOneUser: async (parent, { id }, { models }) => {
+            return await models.User.findByPk(id)
         },
     },
     Mutation: {
-        turnUserIntoAdmin: async (parent, { username }, { models, /* me */ }) => {
-            const novoUsuario = await models.User.update({ role: 'ADMIN' }, { where: { username } })
-            if (novoUsuario[0] == 1) {
-                return true
-            }
-            return false
-        },
-        signUp: async (parent, { username, email, password }, { models, secret }, ) => {
+        addRoleToUser: combineResolvers(
+            isAuthenticated,
+            isAdmin,
+            async (parent, { userId, name }, { models }) => {
+                console.log(`Adicionando role ${name} para o user ${userId}`)
+                try {
+                    await models.Role.create({ name, userId })
+
+                    return true
+                } catch (error) {
+                    console.log('ERROR: ', error.parent.detail)
+                    throw new Error(error.parent.detail)
+                }
+                /* const novoUsuario = await models.User.update({ role: 'ADMIN' }, { where: { username } })
+                if (novoUsuario[0] == 1) {
+                    return true
+                }
+                return false */
+            }),
+        createUser: async (parent, { username, email, password }, { models, secret }, ) => {
             const user = await models.User.create({
                 username,
                 email,
@@ -34,7 +46,7 @@ export default {
             });
             return { token: createToken(user, secret, '10h') }; //30m => 30 minutos para expirar
         },
-        signIn: async (parent, { login, password }, { models, secret }, ) => {
+        login: async (parent, { login, password }, { models, secret }, ) => {
             const user = await models.User.findByLogin(login);
             if (!user) {
                 throw new UserInputError(
@@ -45,7 +57,10 @@ export default {
             if (!isValid) {
                 throw new AuthenticationError('Invalid password.');
             }
-            return { token: createToken(user, secret, '10h') }; //30m => 30 minutos para expirar
+
+            const roles = await models.Role.findFromId(user.id);
+            console.log('Roles found: ', roles)
+            return { token: createToken(user, secret, '10h', roles) }; //30m => 30 minutos para expirar
         },
         deleteUser: combineResolvers(
             isAuthenticated,
@@ -58,11 +73,22 @@ export default {
         ),
     },
     User: {
+        roles: async (user, args, { models }) => {
+            return await models.Role.findAll({
+                where: {
+                    userId: user.id
+                }
+            })
+        }
     }
 }
-const createToken = async (user, secret, expiresIn) => {
-    const { id, email, username, role } = user;
-    return await jwt.sign({ id, email, username, role }, secret, {
+const createToken = async (user, secret, expiresIn, roles) => {
+    const { id, email, username } = user;
+    console.log('Roles sendo inseridas no token: ', roles)
+    return await jwt.sign({ id, email, username, roles }, secret, {
         expiresIn,
     });
 };
+
+
+export default UserResolvers

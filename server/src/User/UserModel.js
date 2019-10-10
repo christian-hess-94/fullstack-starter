@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-const user = (sequelize, DataTypes) => {
+const UserModel = (sequelize, DataTypes) => {
 	const User = sequelize.define('user', {
 		username: {
 			type: DataTypes.STRING,
@@ -8,7 +8,7 @@ const user = (sequelize, DataTypes) => {
 			validate: {
 				notEmpty: {
 					args: true,
-					msg: 'User has to have username'
+					msg: 'Usuário deve ter username'
 				}
 			},
 		},
@@ -17,16 +17,28 @@ const user = (sequelize, DataTypes) => {
 			unique: true,
 			allowNull: false,
 			validate: {
-				notEmpty: true,
-				isEmail: true,
+				notEmpty: {
+					args: true,
+					msg: 'Usuário deve ter email'
+				},
+				isEmail: {
+					args: true,
+					msg: 'Email em formato inválido'
+				},
 			},
 		},
 		password: {
 			type: DataTypes.STRING,
 			allowNull: false,
 			validate: {
-				notEmpty: true,
-				len: [7, 42],
+				notEmpty: {
+					args: true,
+					msg: 'Usuário deve ter senha'
+				},
+				len: {
+					args: [7,42],
+					msg: 'Senha deve ter no mínimo 7 caracteres'
+				}
 			},
 		},
 		role: {
@@ -34,11 +46,9 @@ const user = (sequelize, DataTypes) => {
 		},
 	})
 
-	User.associate = (/* models */) => {
-		// User.hasMany(models.Message, { onDelete: 'CASCADE' })
+	User.associate = (models) => {
+		User.hasMany(models.Role, { onDelete: 'CASCADE' })
 	}
-
-
 
 	User.findByLogin = async login => {
 		console.log('GEtting user')
@@ -71,4 +81,4 @@ const user = (sequelize, DataTypes) => {
 }
 
 
-export default user
+export default UserModel

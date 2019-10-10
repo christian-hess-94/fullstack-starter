@@ -1,4 +1,8 @@
-import user from "./User/UserResolvers";
+import UserResolvers from "./User/UserResolvers";
+import RoleResolvers from "./Role/RoleResolvers";
 
 
-export default [user]
+export default [
+    UserResolvers,
+    RoleResolvers
+]

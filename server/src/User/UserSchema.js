@@ -1,16 +1,16 @@
 import { gql } from "apollo-server";
 
-const userSchema = gql`
+const UserSchema = gql`
     extend type Query {
-        users:[User!]
-        me: User,
-        user(id: ID!): User
+        readAllUsers:[User!]
+        loggedUser: User,
+        readOneUser(id: ID!): User
     }
     extend type Mutation{
-        turnUserIntoAdmin(username: String!): Boolean
-        signUp(username: String!, email: String!, password: String!): Token!
-        signIn(login: String!, password: String!): Token!
+        createUser(username: String!, email: String!, password: String!): Token!
+        login(login: String!, password: String!): Token!
         deleteUser(id: ID!): Boolean!
+        addRoleToUser(userId: ID!, name: String!): Boolean
     }
 
     type Token {
@@ -21,10 +21,10 @@ const userSchema = gql`
         id: ID!
         username: String! #SCALAR TYPE
         email: String! #SCALAR TYPE
-        role: String
+        roles: [Role!]
         createdAt: String
         updatedAt: String
     }
 `
 
-export default userSchema
+export default UserSchema

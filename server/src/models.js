@@ -8,6 +8,7 @@ const sequelize = new Sequelize(process.env.TEST_DATABASE || process.env.DATABAS
 });
 const models = {
     User: sequelize.import('./User/UserModel'),
+    Role: sequelize.import('./Role/RoleModel'),
 };
 Object.keys(models).forEach(key => {
     if ('associate' in models[key]) {
