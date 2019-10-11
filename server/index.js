@@ -44,18 +44,19 @@ const server = new ApolloServer({
 	typeDefs: schema,
 	resolvers,
 	formatError: error => {
+		console.log(error)
 		// remove the internal sequelize error message
 		// leave only the important validation error
 		const messages = error.message
 			.replace(/SequelizeValidationError: /g, '')
 			.replace(/Validation error: /g, '')
 			.replace(/\n/g, '')
-			//.split(',')
+			.split(',')
 		// console.log(messages.split(','))
 		console.log(messages)
 		//const messages = gqlMessages.map(message=> message.replace('Validation error: ', ''))
 		return {
-			// ...error,
+			...error,
 			messages,
 		};
 	},

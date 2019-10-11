@@ -36,31 +36,22 @@ function App() {
 						// setEmail('')
 					}}>
 						<div style={{ flex: 1 }}>
-							<input type='text' onChange={e => setUsername(e.target.value)} />
+							<input placeholder='Username' type='text' onChange={e => setUsername(e.target.value)} />
 							<br />
-							<input type='email' onChange={e => setEmail(e.target.value)} />
+							<input placeholder='Email' type='email' onChange={e => setEmail(e.target.value)} />
 							<br />
-							<input type='password' onChange={e => setPassword(e.target.value)} />
+							<input placeholder='Senha' type='password' onChange={e => setPassword(e.target.value)} />
 							<br />
 							<input type='submit' />
 						</div>
 						<div style={{ flex: 1 }}>
 							{
-								JSON.stringify(createUserResponse.error)
-							}
-							{
-								// createUserResponse.error ?
-								// 	<div>
-								// 		{
-								// 			createUserResponse.error.graphQLErrors[0].message.split('\n').map(error =>
+								createUserResponse.error && createUserResponse.error.graphQLErrors[0].messages.map(error =>
 
-								// 				<p style={{ color: 'red', padding: 10, background: 'lightgray' }} >
-								// 					{error}
-								// 				</p>
-								// 			)
-								// 		}
-								// 	</div>
-								// 	: null
+									<p style={{ color: 'red', padding: 10, background: 'lightgray' }} >
+										{error}
+									</p>
+								)
 							}
 						</div>
 					</form >
@@ -76,9 +67,8 @@ function App() {
 						:
 						data && data.readAllUsers.map(user => {
 							return (
-								<div key={user.username}>
-									<h5>Username</h5>
-									<p>{user.username}</p>
+								<div style={{ backgroundColor: 'gray', margin: 5, padding: 5 }} key={user.username}>
+									<p><strong>Username: </strong>{user.username}</p>
 									<h5>Roles:</h5>
 									<ul>
 										{user.roles.map(role => <li key={role.name}>{role.name}</li>)}

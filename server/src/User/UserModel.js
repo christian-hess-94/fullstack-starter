@@ -3,7 +3,10 @@ const UserModel = (sequelize, DataTypes) => {
 	const User = sequelize.define('user', {
 		username: {
 			type: DataTypes.STRING,
-			unique: true,
+			unique: {
+				args: true,
+				msg: 'Usuário deve ser único'
+			},
 			allowNull: false,
 			validate: {
 				notEmpty: {
@@ -14,7 +17,10 @@ const UserModel = (sequelize, DataTypes) => {
 		},
 		email: {
 			type: DataTypes.STRING,
-			unique: true,
+			unique: {
+				args: true,
+				msg: 'Email já cadastrado no sistema'
+			},
 			allowNull: false,
 			validate: {
 				notEmpty: {
@@ -36,7 +42,7 @@ const UserModel = (sequelize, DataTypes) => {
 					msg: 'Usuário deve ter senha'
 				},
 				len: {
-					args: [7,42],
+					args: [7, 42],
 					msg: 'Senha deve ter no mínimo 7 caracteres'
 				}
 			},
