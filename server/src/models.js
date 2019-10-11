@@ -2,7 +2,12 @@ import Sequelize from 'sequelize';
 
 require('dotenv').config()
 
-const sequelize = new Sequelize(process.env.TEST_DATABASE || process.env.DATABASE, process.env.DATABASE_USER, process.env.DATABASE_PASSWORD, {
+const sequelize = new Sequelize(
+    process.env.TEST_DATABASE_NAME && process.env.NODE_ENV == 'test' ?
+        process.env.TEST_DATABASE_NAME
+        : process.env.DATABASE,
+    process.env.DATABASE_USER,
+    process.env.DATABASE_PASSWORD, {
     host: 'localhost',
     dialect: 'postgres'
 });

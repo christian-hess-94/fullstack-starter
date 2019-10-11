@@ -19,7 +19,7 @@ const getLoggedUser = async req => {
 	const token = req.headers['x-token'];
 	if (token) {
 		try {
-			return await jwt.verify(token, process.env.SECRET);
+			return await jwt.verify(token, process.env.JWT_SECRET);
 		} catch (e) {
 			throw new AuthenticationError('Your session expired. Sign in again.');
 		}
@@ -71,13 +71,12 @@ const server = new ApolloServer({
 			return {
 				models,
 				loggedUser,
-				secret: process.env.SECRET,
+				secret: process.env.JWT_SECRET,
 				loaders: {
 					user: new DataLoader(keys => batchUsers(keys, models)),
 				},
 			};
 		}
-
 	},
 })
 
@@ -87,11 +86,13 @@ server.applyMiddleware({ app, path: '/graphql' });
 const httpServer = http.createServer(app);
 server.installSubscriptionHandlers(httpServer);
 
-let isTesting = !!process.env.TEST_DATABASE; //Faz o drop da base de dados caso exista a variavel de testes
-
-sequelize.sync({ force: isTesting } /*Drop no database toda vez que for sincronizado */).then(() => { //Realiza sincronização dos models criados no sequelize com o banco de dados definir no arquivo .env (cria as tabelas)
+//Inicia o projeto no modo de teste se NODE_ENV for 'test' e existir TEST_DATABASE_NAME
+let isTesting = process.env.NODE_ENV == 'test' && !!process.env.TEST_DATABASE_NAME;
+sequelize.sync({ force: isTesting }).then(() => { //Realiza sincronização dos models criados no sequelize com o banco de dados definir no arquivo .env (cria as tabelas)
 	if (isTesting) {
 		createAdminUser();
+		console.clear()
+		console.log('SERVIÇO INICIADO EM MODO DE TESTES')
 	}
 	httpServer.listen({ port: 8000 }, () => {
 		// console.clear()

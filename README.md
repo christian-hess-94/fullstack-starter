@@ -5,6 +5,25 @@ Este projeto inclui as pastas `server` e `client` para criação de aplicação 
 
 #### Instalação
 
+>###### Programas
+>   - Instalar [Chocolatey](https://chocolatey.org/docs/installation)
+
+>###### Dependencias Chocolatey
+>Execute os comandos abaixo em um CMD com privilégios administrativos
+>- `choco install -y nodejs-lts yarn` Linguagens e package managers
+>- `choco install -y vscode notepadplusplus firacode` IDEs e editores de texto
+>- `choco install -y postgresql pgadmin4` Banco de dados
+>- `choco install -y git github-desktop` Versionamento de código
+
+> ###### Dependencias globais NodeJS
+> No mesmo CMD com privilégios administrativos execute `node -v` para validar a instalação do NodeJS
+> Caso o comando não seja reconhecido, execute `refreshenv` e tente novamente
+> Execute os comandos abaixo
+> `npm install -g create-react-app nodemon sequelize-cli` Frameworks e build-tools
+> `npm install -g eslint prettier` Estilo e organização de código
+
+
+> ###### Dependencias locais
 >   * Abra qualquer uma das pastas (`server` ou `client`)
 >   * Execute o comando `npm install`
 
@@ -31,7 +50,7 @@ Este projeto inclui as pastas `server` e `client` para criação de aplicação 
 >###### Módulos principais da estrutura do server
 >    - [ExpressJS](https://expressjs.com/)
 >    - [Apollo GraphQL Server](https://www.apollographql.com/)
->    - [Sequelize ORM](https://sequelize.org/)
+>    - [Sequelize ORM e CLI](https://sequelize.org/)
 >    - [bcrypt](https://www.npmjs.com/package/bcrypt)
 >    - [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
 
