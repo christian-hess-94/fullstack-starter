@@ -1,8 +1,8 @@
 import UserResolvers from "./User/UserResolvers";
 import RoleResolvers from "./Role/RoleResolvers";
 
-
-export default [
+const resolvers = [
     UserResolvers,
     RoleResolvers
 ]
+export default resolvers

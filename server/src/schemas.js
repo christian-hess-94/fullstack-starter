@@ -16,4 +16,5 @@ const defaultSchema = gql`
     _:Boolean
   }
 `;
-export default [defaultSchema, UserSchema, RoleSchema]
+const schemas = [defaultSchema, UserSchema, RoleSchema]
+export default schemas
