@@ -1,15 +1,41 @@
-# Simple Node Application
+# FullStack Starter
 
-[![Build Status](https://travis-ci.org/rwieruch/node-babel-server.svg?branch=master)](https://travis-ci.org/rwieruch/node-babel-server) [![Slack](https://slack-the-road-to-learn-react.wieruch.com/badge.svg)](https://slack-the-road-to-learn-react.wieruch.com/) [![Greenkeeper badge](https://badges.greenkeeper.io/rwieruch/node-babel-server.svg)](https://greenkeeper.io/)
+#### Descrição
+Este projeto inclui as pastas `server` e `client` para criação de aplicação fullstack com [NodeJS](http://nodejs.org), [ReactJS](http://reactjs.org) e [PostgreSQL](http://postgresql.org)
 
-An easy way to get started with JavaScript on the command line. [Read more about it](https://www.robinwieruch.de/minimal-node-js-babel-setup).
+#### Instalação
 
-[![Edit minimal-react-webpack-babel-setup](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/rwieruch/minimal-node-application/tree/master/?fontsize=14)
+>   * Abra qualquer uma das pastas (`server` ou `client`)
+>   * Execute o comando `npm install`
 
-## Installation
+#### Inicialização
 
-* `git clone git@github.com:rwieruch/node-babel-server.git`
-* `cd node-babel-server`
-* `npm install`
-* `npm start`
-* optional: include *.env* in your *.gitignore*
+>###### Simulânea (server + client)
+>   * Execute o arquivo `start.bat`
+>   * Aguarde o build de ambos os projetos concluir
+
+>###### Individual (server ou client)
+>   * Abra a pasta correspondente
+>   * Execute o arquivo `start.bat` dentro de projeto
+>   * Aguarde o build individual concluir
+
+#### Documentação
+>   * Abra a pasta correspondente
+>   * Abra o arquivo `README.md`
+>   * Link direto
+>       * [client](https://github.com/christian-hess-94/fullstack-starter/blob/master/client/README.md)
+>       * [server](https://github.com/christian-hess-94/fullstack-starter/blob/master/server/README.md)
+
+#### Estrutura e ambiente
+
+>###### Módulos principais da estrutura do server
+>    - [ExpressJS](https://expressjs.com/)
+>    - [Apollo GraphQL Server](https://www.apollographql.com/)
+>    - [Sequelize ORM](https://sequelize.org/)
+>    - [bcrypt](https://www.npmjs.com/package/bcrypt)
+>    - [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+
+>###### Módulos principais da estrutura do client
+>    - [ReactJS](https://reactjs.org/)
+>    - [Create-React-App](https://create-react-app.dev/docs/getting-started)
+>    - [Apollo Boost GraphQL Client](https://www.apollographql.com/)
