@@ -10,8 +10,8 @@ Projeto de serviço web usando as tecnologias
 
 #### Instalação
 
-> - Siga os passos do [`README.md`](https://github.com/christian-hess-94/fullstack-starter/blob/master/README.md) geral
-> - **Importante**: Certifique que o VSCode e NodeJS estão instalados está instalado
+> - Siga os passos de instalação do [`README.md`](https://github.com/christian-hess-94/fullstack-starter/blob/master/README.md) geral do projeto
+> - **Importante**: Certifique que o VSCode e NodeJS estão instalados
 > - Clique com botão direito na pasta do projeto e selecione a opção `Open in VSCode`
 > - Após o VSCode abrir, pressione `CTRL + "`  para abrir o terminal integrado
 > - Execute o comando 
@@ -293,7 +293,7 @@ As requisições que o GraphQL recebe podem ser de três tipos:
 
 ||Query|Mutation|Subscription
 |:---:|:---:|:---:|:---:|
-|Descrição|Leitura|Modificação|Leitra contínua|
+|Descrição|Operações de leitura|Operações de modificação|Leitura contínua de dados|
 |Operação CRUD|Read|Create Update Delete| Read|
 |Descrição|Requisições feitas para apenas ler dados|Requisições feitas para alterar dados| Requisições feitas para apenas ler dados continuamente (atualizam automaticamente em caso de alteração na base de dados)|
 
@@ -357,23 +357,341 @@ O arquivo `src/schemas.js` deve ser inserido no arquivo `index.js` para que seja
 #### Operações
 Abaixo estão listadas os três tipos de operações que podem ser realizadas em uma API GraphQL, **Query**, **Mutation** e **Subscription**
 >##### Queries
->Queries são tipos criados dentro de Schemas e mapeam as operações de Read que podem ser >executadas em cima de um determinado tipo. Por padrão, os dados retornados são em JSON
->
->Queries podem receber parâmetros que são utilizados dentro do Resolver correspondente para >filtrar ou realizar outras funcionalidades no decorrer da operação.
+>Queries são tipos criados dentro de Schemas e mapeam as operações de Read que podem ser executadas em cima de um determinado tipo. Por padrão, os dados retornados são em JSON
 
 >##### Mutations
->Mutations são tipos criados dentro de Schemas e mapeam as operações de Create, Update e Delete >que podem ser executadas em cima de um determinado tipo. 
->
->Queries podem receber parâmetros que são utilizados dentro do Resolver correspondente para >filtrar ou realizar outras funcionalidades no decorrer da operação.
+>Mutations são tipos criados dentro de Schemas e mapeam as operações de Create, Update e Delete que podem ser executadas em cima de um determinado tipo. 
 
->#### Subscriptions
->Subscriptions são tipos criados dentro de Schemas e mapeam as operações de Read que podem ser >executadas em cima de um determinado tipo, porém essas operações são automática e são >re-executadas toda vez que os dados retornados pela Subscription são alterados.
+>##### Subscriptions
+>Subscriptions são tipos criados dentro de Schemas e mapeam as operações de Read que podem ser executadas em cima de um determinado tipo, porém essas operações são automática e são re-executadas toda vez que os dados retornados pela Subscription são alterados.
 >
->Nesse caso, o cliente envia uma requisição de inscrição (subscribe) à GraphQL API e fica >constantemente recebendo respostas atualizadas até cancelar a inscrição
+>Nesse caso, o cliente envia uma requisição de inscrição (subscribe) à GraphQL API e fica constantemente recebendo respostas atualizadas até cancelar a inscrição
 
-**Importante**: Em todos os casos, o tipo de retorno deve ser especificado e se pode ou não ser nulo
+**Importante**: Em todos os casos, o tipo de retorno deve ser especificado e se pode, ou não, ser nulo
 
 ---
 ### Parâmetros
 Queries, Mutations e Subscriptions podem receber parâmetros que são utilizados dentro do Resolver correspondente para filtrar ou realizar outras funcionalidades no decorrer da operação.
-Os parâmetros também devem ser mapeados no Schema quando a operação é criada e podem se recuperados
+Os parâmetros também devem ser mapeados no Schema quando a operação é criada e podem ser recuperados no Resolver correspondente.
+O exemplo abaixo cria uma query que recebe dois parâmetros e retorna a soma dos mesmos
+
+> **src/nome_entidade/algumSchema.js**
+>```js
+>const algumSchema = gql`
+>extend Query{
+>   # Query que recebe dois parâmetros Int e retorna a soma (Int)
+>   soma(param1: Int, param2: Int): Int 
+>}
+>`
+>```
+
+>**src/nome_entidade/algumResolvers.js**
+>```js
+>const algumResolvers = {
+>    Query: {
+>        //Pega os parâmetros especificados no Schema
+>        soma: (_,__,{param1, param2}) => { 
+>            //Retorna a soma
+>            return param1 + param2 
+>        }
+>    }
+>}
+>```
+
+>**Query executada**
+>```js
+>Query{
+>    soma(1,2)
+>}
+>```
+
+>**Retorno**
+>```json
+>{
+>    "data":{
+>        "soma": 3
+>    }
+>}
+>```
+
+---
+
+#### Resolvers
+Resolvers são os arquivos que contém a lógica executada pelas operações definidas no Schema.
+
+Cada arquivo de Schema possui um arquivo de Resolver corresponte, e todas as operações definidas no arquivo de Schema também devem ser definidas no arquivo do Resolver
+
+O resolver deve mapear as mesmas operações do Schema, quer sejam Queries, Mutations ou Subscriptions. 
+
+O resolver também pode modificar os dados que são retornados pelos Types definidos no Schema
+
+>**resolver**
+>```js
+>const Resolver = {
+>   Query: {
+>       Query1: ()=>{
+>          //Faz alguma coisa
+>       },
+>       Query2: ()=>{
+>          //Faz alguma coisa
+>       },
+>   },
+>   Mutation: {
+>       Mutation1: ()=>{
+>          //Faz alguma coisa
+>       },
+>       Mutation2: ()=>{
+>          //Faz alguma coisa
+>       },
+>   },
+>   //Modificando o campo 'roles' do Type User definido no Schema
+>   User: {
+>        roles: async (user, args, { models }) => {
+>            return await models.Role.findAll({
+>                where: {
+>                    userId: user.id
+>                }
+>            })
+>        }
+>    }
+>}
+>```
+
+Os resolvers podem recuperar os parâmetros passados nas queries e o contexto do Apollo GraphQL Server
+
+>**resolver**
+>```js
+>const Resolver = {
+>    Query: {
+>        funcao: async (
+>            parent, //Objeto pai que pode ter parâmetros especificos. Neste caso é Query
+>            params, //Parâmetros passados na Query, Mutation ou Subscription
+>            context //Contexto com os objetos passados para o Apollo GraphQL Server
+>        ) => {
+>            //Faz alguma coisa
+>        },
+>    }
+>}
+>```
+
+##### Context
+
+O Context é um elemento importante da funcionalidade do Resolver, pois nele é onde podemos buscar as referencias aos Models e ao usuário que fez a requisição (através das informações contidas no token)
+
+>**src/index.js**
+>```js
+>const server = new ApolloServer({
+>(...)
+>    context: async ({ req, connection }) => {
+>        if (connection) {
+>            return {
+>                models //Retorna apenas models em caso de Subscription
+>            }
+>        }
+>        if (req) {
+>            const loggedUser = await getLoggedUser(req); //Verifica o token passado no header x-token e salva na variável 'loggedUser'
+>            return {
+>                models, //Adiciona os models no Context
+>                loggedUser, //Adiciona os usuário logado no Context 
+>                secret: process.env.JWT_SECRET, //Adiciona a chave de descriptografia do JWT
+>                loaders: { //Adiciona objeto de batching para queries mais performáticas no banco de dados
+>                    user: new DataLoader(keys => batchUsers(keys, models)), 
+>                },
+>            };
+>        }
+>    },
+>})
+>(...)
+>```
+
+>**src/User/UserResolvers.js**
+>```js
+>deleteUser: combineResolvers(
+>   isAuthenticated,
+>   isAdmin,
+>   async (
+>       _, //Não faz uso do elemento parent
+>       { id }, //Busca o parâmetro ID da query
+>       { models } //Acessa a context e retorna os models
+>   ) => {
+>       return await models.User.destroy({ //Faz uso do model User para deletar do banco >de dados
+>           where: { id },
+>       });
+>   },
+>),
+>```
+
+##### Função CombineResolvers e Resolvers globais
+
+A função CombineResolvers pode ser usada para enfileirar a execução de diversas funções. 
+```js
+combineResolvers(
+    Resolver1,
+    lResolver2,
+    Resolver3,
+    (...)
+)
+```
+
+
+Isso permite a criação de funções Resolvers globais que podem ser chamadas em qualquer Resolver. 
+
+Essas funções tem acesso a todos os mesmo parâmetros que os Resolvers comuns e podem, por exemplo, ser usadas para identificar se o token possui acesso de ADMIN.
+
+As funções Resolver globais ficam localizadas no arquivo `src/resolvers/globals.js`. 
+
+Abaixo o código da função que verifica se o token possui a role ADMIN 
+
+```js
+import { skip } from 'graphql-resolvers';
+
+export const isAdmin = (
+    //Possui acesso aos mesmo parâmetros que todos os resolvers
+    parent, 
+    args, 
+    context
+    ) => {
+        const {loggedUser} = context
+        const { roles } = loggedUser
+        let isAdmin = false
+        roles.forEach(role => { //Verifica se a roles do token possuem a role ADMIN
+            if (role.name === 'ADMIN') {
+                isAdmin = true
+                console.log('Usuário conectado é ADMIN')
+            }
+        })
+        return isAdmin ? skip : new ForbiddenError('Usuário não é ADMIN')
+}
+```
+
+Para continuar a execução para o próximo resolver, cada Resolver Global deve retornar o objeto `skip`. Caso outra coisa seja retornada (neste caso o objeto ForbiddenError), a execução é parada por completo
+
+>```js
+>//Importação dos Resolvers globais para serem usados
+>import { isAdmin, isAuthenticated } from '../resolvers/globals';
+> (...)
+>combineResolvers(
+>   isAuthenticated, //Se retornar skip, avança para a próxima execução
+>   isAdmin, //Se retornar skip, avança para a próxima execução
+>   async (parent,params,context) => {
+>       //Faz alguma coisa
+>   }
+>)
+>```
+
+---
+
+#### JWT (JsonWebToken)
+
+JWT implica na criação de um Token criptografado que contém as informações do usuário que está realizando qualquer operação com o back-end.
+Para criar o token, é necessária uma senha privada. A senha fica localizada dentro do arquivo `.env`:
+
+>**.env**
+>```ini
+>(...)
+># Senha usada para criptografar o Token
+>JWT_SECRET=wr3r23fwfwefwekwself.2456342.dawqdq
+>```
+
+O token faz parte do Context global do Apollo GraphQL Server:
+
+>**index.js**
+>```js
+>context: async ({ req, connection }) => {
+>    (...)
+>    return {
+>        models,
+>        loggedUser,
+>        secret: process.env.JWT_SECRET, //Adiciona chave no Context
+>        (...)
+>    };
+>    (...)
+>```
+
+Como o token criptografa as informações do User, a função de criação fica localizada dentro da lógica das operações do User, no arquivo `src/User/UserResolvers.js`:
+
+>**src/User/UserResolvers.js**
+>```js
+>const createToken = async (
+>    user, //Informações do usuário no banco de dados (tabela users)
+>    secret, //Chave secreta no arquivo .env
+>    expiresIn, //Tempo de validade do token (padrão 10 horas)
+>    roles //Roles do usuário no banco de dados (tabela roles)
+>    ) => {
+>    const { id, email, username } = user;
+>    console.log('Roles sendo inseridas no token: ', roles)
+>    //Criação e retorno do token JWT
+>    return await jwt.sign({ id, email, username, roles }, secret, {
+>        expiresIn,
+>    });
+>};
+>```
+
+A função createToken é usada pelas funções createUser e login do arquivo `src/User/UserResolver.js`. As funções createUser e login são definidas no arquivo `src/User/UserSchema.js`. Dentro do Schema também é definido um tipo para o Token
+
+>**src/User/UserSchema.js**
+>```js
+>const UserSchema = gql`
+>(...)
+>   extend type Mutation{
+>       createUser(username: String!, email: String!, password: String!): Token!
+>       login(login: String!, password: String!): Token!
+>   }
+>   type Token {
+>       token: String!
+>   }
+>(...)
+>`
+>```
+
+>**src/User/UserResolvers.js**
+>```js
+>const UserResolvers = {
+>(...)
+>Mutation: {
+>   (...)
+>   createUser: async (
+>       parent, 
+>       { username, email, password },  //Recupera os parâmetros
+>       { models, secret }, //Busca os models do banco de dados e a chave de criptografia
+>   ) => {
+>   //Cria o usuário no banco de dados
+>       const user = await models.User.create({
+>           username,
+>           email,
+>           password,
+>       });
+>       //Executa a função createToken passando os dados do usuário, chave e tempo de validade
+>       return { token: createToken(user, secret, '10h') }; 
+>   },
+>   login: async (
+>       parent, 
+>       { login, password }, //Recupera os parâmetros
+>       { models, secret }, //Busca os models do banco de dados e a chave de criptografia
+>   ) => {
+>       const user = await models.User.findByLogin(login); //Busca a credencial do login
+>       if (!user) {
+>           throw new UserInputError('Nenhum usuário com essas credenciais');
+>       }
+>       const isValid = await user.validatePassword(password); //Valida a senha
+>       if (!isValid) {
+>           throw new AuthenticationError('Invalid password.');
+>       }
+>       const roles = await models.Role.findFromId(user.id);
+>       //Executa a função createToken passando os dados do usuário, chave, 
+>       //tempo de validade e as roles do usuário
+>       return { token: createToken(user, secret, '10h', roles) }; 
+>   },
+>}
+>(...)
+>```
+
+#### GraphQL Playground
+
+GraphQL Playground é a parte gráfica de testes do Apollo GraphQL Server. 
+O playground é uma tela onde podem ser feitos testes rápidos das queries criadas nos Schemas.
+
+Para acessar o GraphQL Playground, basta acessar http://localhost:8000/graphql em qualquer navegador.
+
+O GraphQL Playground não atualiza automaticamente com as mudanças nos Schemas do projeto. Ao adicionar novas Queries, Mutations, Types e Subscriptions, a pagina no navegador deve ser atualizada manualmente com F5
+

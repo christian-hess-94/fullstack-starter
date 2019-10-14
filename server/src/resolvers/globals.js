@@ -23,7 +23,7 @@ export const isAdmin = (parent, args, { loggedUser }) => {
  * @param {*} param2 
  */
 export const isAuthenticated = (parent, args, { loggedUser }) =>
-    loggedUser ? skip : new ForbiddenError('Not authenticated as user.');
+    loggedUser ? skip : new ForbiddenError('Nenhum usuário autenticado');
 
 /**
  * Verifica se o usuário passado é dono da Message sendo alterada ou deletada

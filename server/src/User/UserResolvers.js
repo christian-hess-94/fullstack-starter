@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { combineResolvers } from 'graphql-resolvers';
 import { AuthenticationError, UserInputError } from 'apollo-server';
-import { isAdmin, isAuthenticated } from '../resolvers/authorization';
+import { isAdmin, isAuthenticated } from '../resolvers/globals';
 const UserResolvers = {
     Query: {
         readAllUsers: async (parent, args, { models }) => {
@@ -44,14 +44,12 @@ const UserResolvers = {
                 email,
                 password,
             });
-            return { token: createToken(user, secret, '10h') }; //30m => 30 minutos para expirar
+            return { token: createToken(user, secret, '10h') };
         },
         login: async (parent, { login, password }, { models, secret }, ) => {
             const user = await models.User.findByLogin(login);
             if (!user) {
-                throw new UserInputError(
-                    'No user found with this login credentials.',
-                );
+                throw new UserInputError('Nenhum usuário com essas credenciais');
             }
             const isValid = await user.validatePassword(password);
             if (!isValid) {
@@ -60,7 +58,7 @@ const UserResolvers = {
 
             const roles = await models.Role.findFromId(user.id);
             console.log('Roles found: ', roles)
-            return { token: createToken(user, secret, '10h', roles) }; //30m => 30 minutos para expirar
+            return { token: createToken(user, secret, '10h', roles) };
         },
         deleteUser: combineResolvers(
             isAuthenticated,

@@ -1,5 +1,5 @@
 import { combineResolvers } from 'graphql-resolvers';
-import { isAdmin, isAuthenticated } from '../resolvers/authorization';
+import { isAdmin, isAuthenticated } from '../resolvers/globals';
 const RoleResolvers = {
     Query: {
         readAllRoles: async (parent, args, { models }) => {
