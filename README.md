@@ -20,6 +20,7 @@ Este projeto inclui as pastas `server` e `client` para criação de aplicação 
 > Caso o comando não seja reconhecido, execute `refreshenv` e tente novamente
 > Execute os comandos abaixo
 > `npm install -g create-react-app nodemon sequelize-cli` Frameworks e build-tools
+> `npm install bit-bin --global --no-optional` Bit.dev compartilhamento de componentes
 > `npm install -g eslint prettier` Estilo e organização de código
 
 

@@ -1,19 +1,20 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
-import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { useApolloClient, useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { readAllUsers } from './apollo/queries';
 import { createNewUser } from './apollo/mutations';
-import { create } from 'istanbul-reports';
+import Input from './components/Input/Input';
+import Container from './components/Container/Container';
 
 function App() {
-	//REFS
-
+	//Apollo Client
+	const client = useApolloClient();
 	//STATE
-	const [showForm, setShowForm] = useState(true)
+	const [showForm, setShowForm] = useState(false)
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	const [email, setEmail] = useState('')
-
+	const [darkMode, setDarkMode] = useState(false)
 	//QUERIES
 	// const { loading, error, data, refetch } = useQuery(readAllUsers); //Executa imediatamente
 	const [getUsers, { loading, error, data }] = useLazyQuery(readAllUsers); //Cria uma function (primeiro parametro getUsers) para ser executada no futuro
@@ -21,10 +22,15 @@ function App() {
 	//MUTATIONS
 	const [createUser, createUserResponse] = useMutation(createNewUser)
 	return (
-		<div style={{ padding: 20 }}>
-			<h2>My first Apollo app <span role="img" aria-label="rocket">🚀</span></h2>
-			<button onClick={() => setShowForm(!showForm)}>Show Form</button>
-			<button onClick={() => getUsers()}>Get data</button>
+		<Container darkMode={darkMode}>
+			<h2>Client Starter <span role="img" aria-label="rocket">🚀</span></h2>
+
+			<button onClick={() => {
+				console.log('Chamando button click')
+				client.writeData({ data: { darkMode: true } })
+			}}>{darkMode ? 'Dark mode is set' : 'Dark mode not set'}</button>
+			<button onClick={() => setShowForm(!showForm)}>{showForm ? 'Hide form' : 'Show form'}</button>
+			<button onClick={() => getUsers()}>Get Users</button>
 			<br />
 			{
 				showForm ?
@@ -36,11 +42,24 @@ function App() {
 						// setEmail('')
 					}}>
 						<div style={{ flex: 1 }}>
-							<input placeholder='Username' type='text' onChange={e => setUsername(e.target.value)} />
+							<Input
+								placeholder='Username'
+								value={username}
+								darkMode={darkMode}
+								onChange={setUsername} />
 							<br />
-							<input placeholder='Email' type='email' onChange={e => setEmail(e.target.value)} />
+							<Input
+								placeholder='E-mail'
+								value={email}
+								darkMode={darkMode}
+								onChange={setEmail} />
 							<br />
-							<input placeholder='Senha' type='password' onChange={e => setPassword(e.target.value)} />
+							<Input
+								placeholder='Senha'
+								value={password}
+								darkMode={darkMode}
+								onChange={setPassword} />
+
 							<br />
 							<input type='submit' />
 						</div>
@@ -77,7 +96,7 @@ function App() {
 							)
 						})
 			}
-		</div >
+		</Container>
 	)
 }
 
