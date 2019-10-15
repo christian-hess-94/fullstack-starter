@@ -1,6 +1,6 @@
 export const padding = 8
 export const paddingHorizontal = 32
-export const paddingVertical = 8
+export const paddingVertical = 4
 export const margin = 8
 export const borderWidth = 1
 export const borderRadius = 25

@@ -11,6 +11,7 @@ import Button from './components/UI/Button';
 import Text from './components/UI/Text';
 import Card from './components/UI/Card';
 import NavBody from './components/UI/Navbar/NavBody';
+import Toggle from './components/UI/Toggle';
 
 const Context = React.createContext()
 
@@ -37,7 +38,7 @@ function App() {
 	return (
 		<Context.Provider value={context}>
 			<Container darkMode={darkMode}>
-				<Text darkMode={darkMode} title bold>Client Starter<span role="img" aria-label="rocket">🚀</span></Text>
+				<Text darkMode={darkMode} isTitle bold>Client Starter<span role="img" aria-label="rocket">🚀</span></Text>
 				<Text darkMode={darkMode} >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ultricies quam turpis, sed porttitor lectus condimentum quis. Morbi dictum sodales convallis.</Text>
 
 				<Button block darkMode={darkMode} type='dark' onClick={() => {
@@ -45,7 +46,7 @@ function App() {
 				}}>Toggle Dark Mode</Button>
 
 				<Button block darkMode={darkMode} type='warning' onClick={() => setShowForm(!showForm)}>Toggle Form</Button>
-
+				<Toggle />
 				{
 					showForm ?
 						<Card darkMode={darkMode}>
