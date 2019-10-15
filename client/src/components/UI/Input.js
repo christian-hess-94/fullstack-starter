@@ -16,6 +16,8 @@ const Input = styled.input`
 	margin: ${props => (props.block ? `${margin}px auto` : `${margin}px`)};
 	width: ${props => (props.block ? `80%` : `fit-content`)};
 	padding-left: 24px;
+	
+    transition: all 500ms ease;
 	:hover {
 	}
 	:focus {

@@ -17,6 +17,8 @@ const Button = styled.button`
 	display: block;
 	margin: ${props => (props.block ? `${margin}px auto` : `${margin}px`)};
 	width: ${props => (props.block ? `100%` : `fit-content`)};
+	
+    transition: all 500ms ease;
 	cursor: pointer;
 	:hover {
 		background-color: ${props => buttons[props.type].hoverColor};

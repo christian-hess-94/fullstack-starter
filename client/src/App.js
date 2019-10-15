@@ -10,13 +10,15 @@ import Container from './components/UI/Container';
 import Button from './components/UI/Button';
 import Text from './components/UI/Text';
 import Card from './components/UI/Card';
+import NavBody from './components/UI/Navbar/NavBody';
 
 const Context = React.createContext()
 
 function App() {
 	//GLOBAL STATE
 	const [context, setContext] = useState({
-		darkMode: false
+		darkMode: false,
+		daltonicMode: false,
 	})
 	const { darkMode } = context
 
@@ -38,7 +40,9 @@ function App() {
 				<Text darkMode={darkMode} title bold>Client Starter<span role="img" aria-label="rocket">🚀</span></Text>
 				<Text darkMode={darkMode} >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ultricies quam turpis, sed porttitor lectus condimentum quis. Morbi dictum sodales convallis.</Text>
 
-				<Button block darkMode={darkMode} type='dark' onClick={() => setContext({ darkMode: !darkMode })}>Toggle Dark Mode</Button>
+				<Button block darkMode={darkMode} type='dark' onClick={() => {
+					setContext({ darkMode: !darkMode })
+				}}>Toggle Dark Mode</Button>
 
 				<Button block darkMode={darkMode} type='warning' onClick={() => setShowForm(!showForm)}>Toggle Form</Button>
 

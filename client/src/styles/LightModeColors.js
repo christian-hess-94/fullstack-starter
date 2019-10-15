@@ -1,5 +1,6 @@
 //Universal
 export const lightBackground = '#ddd'
+export const lightNavbarBackground = '#bbb'
 export const lightBorderColor = '#343434'
 
 //Text

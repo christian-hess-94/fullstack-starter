@@ -6,10 +6,9 @@ import { darkBackground } from '../../styles/DarkModeColors'
 const Container = styled.div`
     background: ${props => props.darkMode ? darkBackground : lightBackground};
     padding: ${padding}px;
-    position: absolute;
+    transition: all 500ms ease;
+    flex-direction: column;
     height: 100%;
-    left: 0;
-    top: 0;
-    overflow: scroll;
+    min-height : 100vh;
 `
 export default Container
