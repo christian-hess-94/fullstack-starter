@@ -88,6 +88,7 @@ server.installSubscriptionHandlers(httpServer);
 
 //Inicia o projeto no modo de teste se NODE_ENV for 'test' e existir TEST_DATABASE_NAME
 let isTesting = process.env.NODE_ENV == 'test' && !!process.env.TEST_DATABASE_NAME;
+
 sequelize.sync({ force: isTesting }).then(() => { //Realiza sincronização dos models criados no sequelize com o banco de dados definir no arquivo .env (cria as tabelas)
 	if (isTesting) {
 		createAdminUser();

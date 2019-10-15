@@ -1,9 +1,7 @@
 
 import ApolloClient from 'apollo-boost';
-import CacheSchema from './cache/CacheSchema';
 const client = new ApolloClient({
-    uri: 'http://localhost:8000/graphql',
-    typeDefs: CacheSchema
+    uri: 'http://172.25.147.202:8000/graphql',
 });
 
 export default client

@@ -1,102 +1,117 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import './App.css';
-import { useApolloClient, useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { useApolloClient, useLazyQuery, useMutation, useQuery } from '@apollo/react-hooks';
+
 import { readAllUsers } from './apollo/queries';
 import { createNewUser } from './apollo/mutations';
-import Input from './components/Input/Input';
-import Container from './components/Container/Container';
+
+import Input from './components/UI/Input';
+import Container from './components/UI/Container';
+import Button from './components/UI/Button';
+import Text from './components/UI/Text';
+import Card from './components/UI/Card';
+
+const Context = React.createContext()
 
 function App() {
-	//Apollo Client
-	const client = useApolloClient();
+	//GLOBAL STATE
+	const [context, setContext] = useState({
+		darkMode: false
+	})
+	const { darkMode } = context
+
 	//STATE
-	const [showForm, setShowForm] = useState(false)
+	const [showForm, setShowForm] = useState(true)
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	const [email, setEmail] = useState('')
-	const [darkMode, setDarkMode] = useState(false)
-	//QUERIES
-	// const { loading, error, data, refetch } = useQuery(readAllUsers); //Executa imediatamente
-	const [getUsers, { loading, error, data }] = useLazyQuery(readAllUsers); //Cria uma function (primeiro parametro getUsers) para ser executada no futuro
 
+	//CONTEXT
+
+	//QUERIES
+	const [getUsers, { loading: userLoading, error: userError, data: userData }] = useLazyQuery(readAllUsers);
 	//MUTATIONS
 	const [createUser, createUserResponse] = useMutation(createNewUser)
 	return (
-		<Container darkMode={darkMode}>
-			<h2>Client Starter <span role="img" aria-label="rocket">🚀</span></h2>
+		<Context.Provider value={context}>
+			<Container darkMode={darkMode}>
+				<Text darkMode={darkMode} title bold>Client Starter<span role="img" aria-label="rocket">🚀</span></Text>
+				<Text darkMode={darkMode} >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ultricies quam turpis, sed porttitor lectus condimentum quis. Morbi dictum sodales convallis.</Text>
 
-			<button onClick={() => {
-				console.log('Chamando button click')
-				client.writeData({ data: { darkMode: true } })
-			}}>{darkMode ? 'Dark mode is set' : 'Dark mode not set'}</button>
-			<button onClick={() => setShowForm(!showForm)}>{showForm ? 'Hide form' : 'Show form'}</button>
-			<button onClick={() => getUsers()}>Get Users</button>
-			<br />
-			{
-				showForm ?
-					<form style={{ width: '100%', flexDirection: 'row' }} onSubmit={e => {
-						e.preventDefault()
-						createUser({ variables: { username, email, password } })
-						// setUsername('')
-						// setPassword('')
-						// setEmail('')
-					}}>
-						<div style={{ flex: 1 }}>
-							<Input
-								placeholder='Username'
-								value={username}
-								darkMode={darkMode}
-								onChange={setUsername} />
-							<br />
-							<Input
-								placeholder='E-mail'
-								value={email}
-								darkMode={darkMode}
-								onChange={setEmail} />
-							<br />
-							<Input
-								placeholder='Senha'
-								value={password}
-								darkMode={darkMode}
-								onChange={setPassword} />
+				<Button block darkMode={darkMode} type='dark' onClick={() => setContext({ darkMode: !darkMode })}>Toggle Dark Mode</Button>
 
-							<br />
-							<input type='submit' />
-						</div>
-						<div style={{ flex: 1 }}>
-							{
-								createUserResponse.error && createUserResponse.error.graphQLErrors[0].messages.map(error =>
+				<Button block darkMode={darkMode} type='warning' onClick={() => setShowForm(!showForm)}>Toggle Form</Button>
 
-									<p style={{ color: 'red', padding: 10, background: 'lightgray' }} >
-										{error}
-									</p>
-								)
-							}
-						</div>
-					</form >
+				{
+					showForm ?
+						<Card darkMode={darkMode}>
+							<form id='form1' style={{ flex: 1 }} onSubmit={e => {
+								e.preventDefault()
+								createUser({ variables: { username, email, password } })
+							}}>
+								<Input
+									block
+									darkMode={darkMode}
+									placeholder='Username'
+									value={username}
+									onChange={(e) => setUsername(e.target.value)} />
+								<br />
 
-					:
-					null
-			}
-			{
-				loading ?
-					<p>Loading...</p>
-					: error ?
-						<p>Error</p>
-						:
-						data && data.readAllUsers.map(user => {
-							return (
-								<div style={{ backgroundColor: 'gray', margin: 5, padding: 5 }} key={user.username}>
-									<p><strong>Username: </strong>{user.username}</p>
-									<h5>Roles:</h5>
-									<ul>
-										{user.roles.map(role => <li key={role.name}>{role.name}</li>)}
-									</ul>
+								<Input
+									block
+									darkMode={darkMode}
+									placeholder='Email'
+									value={email}
+									onChange={(e) => setEmail(e.target.value)} />
+								<br />
+
+								<Input
+									block
+									darkMode={darkMode}
+									type='password'
+									placeholder='Senha'
+									value={password}
+									onChange={(e) => setPassword(e.target.value)} />
+								<br />
+
+								<Button darkMode={darkMode} type='default' form='form1' value="Submit" block >Enviar</Button>
+
+								<div style={{ flex: 1 }}>
+									{
+										createUserResponse.error && createUserResponse.error.graphQLErrors[0].messages.map(error =>
+											<p style={{ color: 'red', padding: 10, background: 'lightgray' }} >
+												{error}
+											</p>
+										)
+									}
 								</div>
-							)
-						})
-			}
-		</Container>
+							</form >
+						</Card>
+						:
+						null
+				}
+
+				<Button block darkMode={darkMode} type='info' onClick={() => getUsers()}>Get Users</Button>
+				{
+					userLoading ?
+						<p>Loading...</p>
+						: userError ?
+							<p>Error</p>
+							:
+							userData && userData.readAllUsers.map(user => {
+								return (
+									<Card darkMode={darkMode} key={user.username}>
+										<Text darkMode={darkMode} bold>Username: {user.username}</Text>
+										<Text darkMode={darkMode}>Roles:</Text>
+										<ul>
+											{user.roles.map(role => <Text darkMode={darkMode} key={role.name}>{role.name}</Text>)}
+										</ul>
+									</Card>
+								)
+							})
+				}
+			</Container>
+		</Context.Provider>
 	)
 }
 
