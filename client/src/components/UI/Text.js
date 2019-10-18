@@ -7,7 +7,7 @@ import { lightInputTextColor } from '../../styles/LightModeColors'
 const Text = styled.p`
     font-size: ${props => props.isTitle ? titleFontSize : textFontSize}px;
     padding: ${props => props.isTitle ? `${paddingVertical}px ${paddingHorizontal}px` : `${paddingVertical}px`};
-    margin: ${margin}px;
+    margin: ${props => props.centered ? 'auto' : `${margin}px`};
     color: ${ props => props.darkMode ? darkInputTextColor : lightInputTextColor};
     width: ${ props => props.block ? '' : 'fit-content'};
     font-weight: ${props => props.bold ? 'bold' : ''};

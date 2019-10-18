@@ -1,6 +1,6 @@
 body, #root {
   margin: 0;
-  background-color: red;
+  background-color: #454545;
   display: flex;
   flex: 1;
   width: 100%;

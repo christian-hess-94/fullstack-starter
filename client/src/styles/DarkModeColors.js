@@ -13,7 +13,7 @@ export const darkAnchorTextColor = '#326D9E'
 //Input
 export const darkInputTextColor = '#e5e5e5'
 export const darkInputPlaceholderColor = '#ababab'
-export const darkInputBackgroundColorFocus = '#545454'
+export const darkInputBackgroundColorFocus = '#787878'
 //Button
 export const darkButtonTextColor = '#e5e5e5'
 //Card

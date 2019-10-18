@@ -15,18 +15,23 @@ const Button = styled.button`
 	color: ${props => props.type === 'default' ? props.darkMode ? darkTextColor : buttons[props.type].textColor : buttons[props.type].textColor};
 	font-weight: bold;
 	display: block;
-	margin: ${props => (props.block ? `${margin}px auto` : `${margin}px`)};
-	width: ${props => (props.block ? `100%` : `fit-content`)};
+	margin: ${props => (props.block ? `${margin}px auto` : props.centered ? `${margin}px auto` : `${margin}px`)};
+	width: ${props => (props.block ? props.centered ? '' : `100%` : props.centered ? '' : `fit-content`)};
 	
     transition: all 500ms ease;
-	cursor: pointer;
+	cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
+	:disabled{
+		color: ${props => buttons[props.type].disabledTextColor};
+		background-color: ${props => buttons[props.type].disabledBackgroundColor};
+	}
 	:hover {
-		background-color: ${props => buttons[props.type].hoverColor};
+		background-color: ${props => props.disabled ? '' : buttons[props.type].hoverColor};
 	}
 `
 Button.propTypes = {
 	darkMode: PropTypes.bool,
 	block: PropTypes.bool,
+	centered: PropTypes.bool,
 	type: PropTypes.string.isRequired,
 }
 

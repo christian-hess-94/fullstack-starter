@@ -1,25 +1,40 @@
-import React from 'react';
-
-import styled from 'styled-components';
-import { colorPrimary, colorAccent } from '../../styles/Colors';
-import Text from './Text'
-import { borderRadius, padding } from '../../styles/Dimens';
-import { lightBackground, lightCardBackground } from '../../styles/LightModeColors';
-
-const Toggle = props => {
-    const { checked } = props
-    return <div style={{ borderWidth: 1, borderColor: '#000', borderStyle: 'solid' }}>
-        <ToggleComponent />
-        <p>Text</p>
-    </div>
+import React from 'react'
+import styled from 'styled-components'
+import Checkbox from 'react-simple-checkbox';
+import { buttons } from '../../styles/Colors';
+import { borderRadius, margin } from '../../styles/Dimens';
+import Text from './Text';
+import { lightInputTextColor } from '../../styles/LightModeColors';
+import { darkInputTextColor } from '../../styles/DarkModeColors';
+function Toggle(props) {
+    const { checked, onChange, text, darkMode } = props
+    return (
+        <CheckboxFrame>
+            <CheckboxContent>
+                <CheckboxText darkMode={darkMode}>{text}</CheckboxText>
+                <Checkbox
+                    color={buttons.confirm.backgroundColor}
+                    size={3}
+                    checked={checked}
+                    onChange={onChange} />
+            </CheckboxContent>
+        </CheckboxFrame>
+    )
 }
 
-const ToggleComponent = styled.div`
-    align-self: center;
-    border: 1px solid black;
-    width: 20px;
-    height: 20px;
-    border-radius: ${borderRadius}px;
-    background-color: ${props => props.checked ? colorPrimary : 'transparent'};
+const CheckboxFrame = styled.div`
+display: flex;
+flex: 1;
+padding: 8px;
+flex-direction: column;
+width: fit-content;
+`
+const CheckboxContent = styled.div`
+flex: 1;
+flex-direction: row;
+`
+const CheckboxText = styled.span`
+color: ${props => props.darkMode ? darkInputTextColor : lightInputTextColor};
+margin-right: ${margin}px
 `
 export default Toggle
