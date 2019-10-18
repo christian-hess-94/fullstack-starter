@@ -1,8 +1,8 @@
 //Universal
 export const darkBackground = '#454545'
 export const darkNavbarBackground = '#676767'
-
-export const darkBorderColor = '#e5e5e5'
+export const darkBorderColor = '#656565'
+export const darkBoxShadow = '#aaa'
 
 //Text
 export const darkTextColor = '#e5e5e5'

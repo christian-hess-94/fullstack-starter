@@ -27,7 +27,7 @@ const List = ({
     useChain([transitionRef])
     return itemTransitions.map(({ item, key, props }) => (
         <animated.div key={key} style={props}>
-            <Card darkMode={darkMode} onClick={canClick ? () => click(item) : null}>
+            <Card canHover={canClick} darkMode={darkMode} onClick={canClick ? () => click(item) : null}>
                 <Text darkMode={darkMode} bold>{titleVarName && item[titleVarName]}</Text>
                 <Text darkMode={darkMode}>{descriptionVarName && item[descriptionVarName]}</Text>
             </Card>

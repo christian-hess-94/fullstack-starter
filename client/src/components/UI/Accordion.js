@@ -54,6 +54,7 @@ const AccordionFrame = styled.div`
     border-radius: ${borderRadius}px;
     background-color: ${props => props.darkMode ? darkCardBackground : lightCardBackground};
     margin: auto;
+    transition: all 500ms ease;
 	width: ${props => (props.block ? props.centered ? '' : `100%` : props.centered ? 'fit-content' : '')};
 `;
 const AccordionBody = styled.div`

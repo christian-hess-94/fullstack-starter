@@ -63,7 +63,7 @@ function App() {
 					onChange={() => setContext({ darkMode: !darkMode })} />
 
 				<Accordion
-					centered
+					block
 					buttonTitle='Toggle Form (Accordion)'
 					darkMode={darkMode}
 					on={accordionOn}
@@ -111,7 +111,7 @@ function App() {
 					</form >
 				</Accordion>
 
-				<Button centered darkMode={darkMode} type='info' onClick={() => getUsers()} >Get Users (Button)</Button>
+				<Button darkMode={darkMode} type='info' onClick={() => getUsers()} block>Get Users</Button>
 				{
 					userLoading ?
 						<Text darkMode={darkMode} bold isTitle centered>Loading...</Text>
