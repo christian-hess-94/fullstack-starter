@@ -10,7 +10,7 @@ export const buttons = {
         hoverColor: '#00000033',
         textColor: '#10111E',
         disabledTextColor: '#004400',
-        disabledBackgroundColor: '#'
+        disabledBackgroundColor: '#eeeeee'
     },
     confirm: {
         backgroundColor: '#2D882D',

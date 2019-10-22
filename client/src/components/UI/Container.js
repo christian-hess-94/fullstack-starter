@@ -4,6 +4,7 @@ import { lightBackground } from '../../styles/LightModeColors'
 import { darkBackground } from '../../styles/DarkModeColors'
 
 const Container = styled.div`
+    display: flex;
     background: ${props => props.darkMode ? darkBackground : lightBackground};
     padding: ${padding}px;
     transition: all 500ms ease;

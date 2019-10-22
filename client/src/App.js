@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
-import './App.css';
 import { useApolloClient, useLazyQuery, useMutation, useQuery } from '@apollo/react-hooks';
 
 import { readAllUsers } from './apollo/queries';
@@ -16,6 +15,7 @@ import Toggle from './components/UI/Toggle';
 import Accordion from './components/UI/Accordion';
 import List from './components/UI/List';
 import { animated, useTransition } from 'react-spring'
+import Row from './components/UI/Row';
 
 const Context = React.createContext()
 
@@ -28,7 +28,6 @@ function App() {
 	const { darkMode } = context
 
 	//STATE
-	const [showForm, setShowForm] = useState(true)
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	const [email, setEmail] = useState('')
@@ -41,28 +40,127 @@ function App() {
 
 	//MUTATIONS
 	const [createUser, createUserResponse] = useMutation(createNewUser)
-	//Transitions
-	/* const itemTransitions = useTransition(loading ? [] : array, item => item.username, {
-		from: { opacity: 0 },
-		enter: { opacity: 1 },
-		leave: { opacity: 0 }
-	}) */
 	return (
 		<Context.Provider value={context}>
 
 			<Container darkMode={darkMode}>
-				<Text darkMode={darkMode} isTitle bold>Client Starter
-					<span role="img" aria-label="rocket">🚀</span> (Text)
+				<Text darkMode={darkMode} isTitle bold>Framework Starter
+					<span role="img" aria-label="rocket">🚀</span>
 				</Text>
-				<Text darkMode={darkMode} >Deus dormit Et liberi ignem faciunt Numquam extinguunt Ne expergisci possint Omnia dividit Tragedia coram Amandum quae Et nocte perpetua In desperatione Aurora videre potest Mane tempus expergiscendi</Text>
+				<Text darkMode={darkMode} isTitle bold centered>Text</Text>
+				<Text darkMode={darkMode}>Deus dormit Et liberi ignem faciunt Numquam extinguunt Ne expergisci possint Omnia dividit Tragedia coram Amandum quae Et nocte perpetua In desperatione Aurora videre potest Mane tempus expergiscendi</Text>
+
+				<Text centered darkMode={darkMode} isTitle bold>Toggle</Text>
 
 				<Toggle
+					position='center'
 					darkMode={darkMode}
 					text='Dark Mode'
 					checked={darkMode}
-					onChange={() => setContext({ darkMode: !darkMode })} />
+					onClick={() => setContext({ darkMode: !darkMode })} />
 
 				<Accordion
+					darkMode={darkMode}
+					buttonTitle='Buttons'
+					toggle={accordionToggle}
+					on={accordionOn}>
+					<Row>
+						<Button
+							position='center'
+							darkMode={darkMode}
+							type='confirm'
+							onClick={() => alert('Click')}
+						>confirm</Button>
+						<Button
+							position='center'
+							darkMode={darkMode}
+							type='warning'
+							onClick={() => alert('Click')}
+						>warning</Button>
+						<Button
+							position='center'
+							darkMode={darkMode}
+							type='danger'
+							onClick={() => alert('Click')}
+						>danger</Button>
+						<Button
+							position='center'
+							darkMode={darkMode}
+							type='info'
+							onClick={() => alert('Click')}
+						>info</Button>
+						<Button
+							position='center'
+							darkMode={darkMode}
+							type='default'
+							onClick={() => alert('Click')}
+						>default</Button>
+						<Button
+							position='center'
+							darkMode={darkMode}
+							type='light'
+							onClick={() => alert('Click')}
+						>light</Button>
+						<Button
+							position='center'
+							darkMode={darkMode}
+							type='dark'
+							onClick={() => alert('Click')}
+						>dark</Button>
+					</Row>
+					<Button
+						position='full'
+						darkMode={darkMode}
+						type='confirm'
+						onClick={() => alert('Click')}
+					>Full Confirm Button</Button>
+					<Button
+						position='full'
+						darkMode={darkMode}
+						type='warning'
+						onClick={() => alert('Click')}
+					>Full Warning Button</Button>
+					<Button
+						position='full'
+						darkMode={darkMode}
+						type='danger'
+						onClick={() => alert('Click')}
+					>Full Danger Button</Button>
+					<Button
+						position='full'
+						darkMode={darkMode}
+						type='info'
+						onClick={() => alert('Click')}
+					>Full Info Button</Button>
+					<Button
+						position='full'
+						darkMode={darkMode}
+						type='default'
+						onClick={() => alert('Click')}
+					>Full Default Button</Button>
+					<Button
+						position='full'
+						darkMode={darkMode}
+						type='light'
+						onClick={() => alert('Click')}
+					>Full Light Button</Button>
+					<Button
+						position='full'
+						darkMode={darkMode}
+						type='dark'
+						onClick={() => alert('Click')}
+					>Full Dark Button</Button>
+				</Accordion>
+
+
+				<Button
+					position='full'
+					darkMode={darkMode}
+					type='info'
+					onClick={() => getUsers()}
+				>Get Users</Button>
+
+				{/* <Accordion
 					block
 					buttonTitle='Toggle Form (Accordion)'
 					darkMode={darkMode}
@@ -109,9 +207,8 @@ function App() {
 							}
 						</div>
 					</form >
-				</Accordion>
+				</Accordion> */}
 
-				<Button darkMode={darkMode} type='info' onClick={() => getUsers()} block>Get Users</Button>
 				{
 					userLoading ?
 						<Text darkMode={darkMode} bold isTitle centered>Loading...</Text>

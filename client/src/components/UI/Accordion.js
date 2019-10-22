@@ -20,7 +20,7 @@ const Accordion = ({ darkMode, children, on, toggle, buttonTitle, centered, bloc
     })
     return (
         <AccordionFrame darkMode={darkMode} centered={centered} block={block}>
-            <Button disabled={disabled} block type='warning' onClick={() => {
+            <Button disabled={disabled} position='full' type='warning' onClick={() => {
                 console.log('Clicou: ', on)
                 toggle(!on)
             }}>
@@ -46,16 +46,13 @@ Accordion.propTypes = {
     disabled: PropTypes.bool
 }
 
-
 const AccordionFrame = styled.div`
     border: ${borderWidth}px solid ${props => props.darkMode ? darkBorderColor : lightBorderColor};
-    padding-left: ${padding}px;
-    padding-right: ${padding}px;
     border-radius: ${borderRadius}px;
     background-color: ${props => props.darkMode ? darkCardBackground : lightCardBackground};
-    margin: auto;
+    margin: ${props => props.centered ? '0px auto' : ''};
     transition: all 500ms ease;
-	width: ${props => (props.block ? props.centered ? '' : `100%` : props.centered ? 'fit-content' : '')};
+	width: ${props => props.block ? props.centered ? '' : `100%` : props.centered ? 'fit-content' : ''};
 `;
 const AccordionBody = styled.div`
     padding-bottom: 20px;
