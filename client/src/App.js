@@ -53,7 +53,6 @@ function App() {
 				<Text centered isTitle bold>Toggle</Text>
 				<Toggle
 					position='center'
-
 					text='Dark Mode'
 					checked={darkMode}
 					onClick={() => setContext({ darkMode: !darkMode })} />
@@ -151,14 +150,6 @@ function App() {
 					>Full Dark Button</Button>
 				</Accordion>
 
-
-				<Button
-					position='full'
-
-					type='info'
-					onClick={() => getUsers()}
-				>Get Users</Button>
-
 				<Accordion
 					type='confirm'
 					block
@@ -215,6 +206,11 @@ function App() {
 					</form >
 				</Accordion>
 
+				<Button
+					position='full'
+					type='info'
+					onClick={() => getUsers()}
+				>Get Users</Button>
 				{
 					userLoading ?
 						<Text bold isTitle centered>Loading...</Text>

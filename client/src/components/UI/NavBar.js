@@ -27,6 +27,7 @@ NavBar.propTypes = {
 }
 
 const NavBarStyle = styled.nav`
+    z-index: 150;
     display: flex;
     position: fixed;
     flex-direction: row;
