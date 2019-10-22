@@ -13,10 +13,10 @@ const Card = styled.div`
     transition: all 500ms ease;
     box-shadow: 1px 1px 6px ${props => props.darkMode ? darkBoxShadow : lightBoxShadow};
     :hover{
-        box-shadow: ${props => props.canHover ? `2px 2px 10px ${props.darkMode ? darkBoxShadow : lightBoxShadow}` : '2px 2px'};
-        cursor: ${props => props.canHover ? 'pointer' : ''};
+        box-shadow: ${props => props.canHover ? `2px 2px 10px ${props.darkMode ? darkBoxShadow : lightBoxShadow}` : ''};
+        cursor: ${props => props.canClick ? 'pointer' : ''};
         z-index: 10;
-        transform: scale(1.02)
+        transform: ${props => props.canHover ? 'scale(1.02)' : ''};
     }
 `
 

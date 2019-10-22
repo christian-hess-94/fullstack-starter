@@ -9,7 +9,7 @@ import Container from './components/UI/Container';
 import Button from './components/UI/Button';
 import Text from './components/UI/Text';
 import Card from './components/UI/Card';
-import NavBody from './components/UI/Navbar/NavBody';
+import NavBar from './components/UI/NavBar';
 import { colorPrimary } from './styles/Colors';
 import Toggle from './components/UI/Toggle';
 import Accordion from './components/UI/Accordion';
@@ -32,6 +32,7 @@ function App() {
 	const [password, setPassword] = useState('')
 	const [email, setEmail] = useState('')
 	const [accordionOn, accordionToggle] = useState(false)
+	const [formOn, formToggle] = useState(false)
 
 	//CONTEXT
 
@@ -60,8 +61,9 @@ function App() {
 					onClick={() => setContext({ darkMode: !darkMode })} />
 
 				<Accordion
+					type='warning'
 					darkMode={darkMode}
-					buttonTitle='Buttons'
+					buttonTitle='Accordion'
 					toggle={accordionToggle}
 					on={accordionOn}>
 					<Row>
@@ -160,12 +162,13 @@ function App() {
 					onClick={() => getUsers()}
 				>Get Users</Button>
 
-				{/* <Accordion
+				<Accordion
+					type='confirm'
 					block
-					buttonTitle='Toggle Form (Accordion)'
+					buttonTitle='Toggle Form'
 					darkMode={darkMode}
-					on={accordionOn}
-					toggle={accordionToggle}>
+					on={formOn}
+					toggle={formToggle}>
 					<form id='form1' style={{ flex: 1 }} onSubmit={e => {
 						e.preventDefault()
 						createUser({ variables: { username, email, password } })
@@ -173,18 +176,17 @@ function App() {
 						setPassword('')
 						setEmail('')
 					}}>
-						<Text darkMode={darkMode} centered>(AccordionBody) </Text>
 						<Input
 							block
 							darkMode={darkMode}
-							placeholder='Username (Input)'
+							placeholder='Username'
 							value={username}
 							onChange={(e) => setUsername(e.target.value)} />
 
 						<Input
 							block
 							darkMode={darkMode}
-							placeholder='Email (Input)'
+							placeholder='Email'
 							value={email}
 							onChange={(e) => setEmail(e.target.value)} />
 
@@ -192,22 +194,29 @@ function App() {
 							block
 							darkMode={darkMode}
 							type='password'
-							placeholder='Senha (Input)'
+							placeholder='Senha'
 							value={password}
 							onChange={(e) => setPassword(e.target.value)} />
 
-						<Button darkMode={darkMode} type='confirm' form='form1' value="Submit" block>Enviar (Button)</Button>
+						<Button
+							position='center'
+							darkMode={darkMode}
+							type='confirm'
+							form='form1'
+							value="Submit"
+						>Enviar
+						</Button>
 						<div style={{ flex: 1 }}>
 							{
 								createUserResponse.error && createUserResponse.error.graphQLErrors[0].messages.map(error =>
-									<p style={{ color: 'red', padding: 10, background: 'lightgray' }} >
-										{error}
-									</p>
+									<Card>
+										<Text>{error}</Text>
+									</Card>
 								)
 							}
 						</div>
 					</form >
-				</Accordion> */}
+				</Accordion>
 
 				{
 					userLoading ?

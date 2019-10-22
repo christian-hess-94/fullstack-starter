@@ -12,7 +12,7 @@ import Text from './Text';
 
 
 
-const Accordion = ({ darkMode, children, on, toggle, buttonTitle, centered, block, disabled }) => {
+const Accordion = ({ darkMode, children, on, toggle, buttonTitle, centered, block, disabled, type }) => {
     const [bind, { height, top }] = useMeasure()
     const accordionAnimation = useSpring({
         overflow: 'hidden',
@@ -27,8 +27,8 @@ const Accordion = ({ darkMode, children, on, toggle, buttonTitle, centered, bloc
     })
     return (
         <AccordionFrame darkMode={darkMode} centered={centered} block={block}>
-            <AccordionHeader disabled={disabled} type='warning' onClick={() => toggle(!on)}>
-                <AccordionButton disabled={disabled} position='full' type='warning' >
+            <AccordionHeader disabled={disabled} type={type} onClick={() => toggle(!on)}>
+                <AccordionButton disabled={disabled} position='full' type={type} >
                     {buttonTitle}
                 </AccordionButton>
                 <animated.img style={imageFlip} src={require('./../../images/components/arrow_down.png')} />
