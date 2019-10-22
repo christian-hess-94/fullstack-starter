@@ -8,7 +8,7 @@ import client from './apollo/client';
 
 
 ReactDOM.render(
-    <ApolloProvider client={client}>
+    <ApolloProvider client={client}> {/* Necessário para fazer conexão e queries GRAPHQL */}
         <App />
     </ApolloProvider>,
     document.getElementById('root')

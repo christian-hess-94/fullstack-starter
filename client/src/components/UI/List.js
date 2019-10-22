@@ -1,17 +1,13 @@
-import React, { useRef } from 'react'
+import React, { useRef, useContext } from 'react'
 import PropTypes from 'prop-types'
 import Card from './Card'
 import Text from './Text'
 import { animated, useTransition, useChain } from 'react-spring'
+import { ThemeContext } from '../../App'
 
-const List = ({
-    darkMode,
-    titleVarName,
-    descriptionVarName,
-    canClick,
-    click,
-    array,
-}) => {
+const List = (props) => {
+    const { canClick, click, titleVarName, descriptionVarName, array } = props
+
 
     const transitionRef = useRef()
     const itemTransitions = useTransition(array, item => item.username, {
@@ -25,8 +21,11 @@ const List = ({
         }
     })
     useChain([transitionRef])
-    return itemTransitions.map(({ item, key, props }) => (
-        <animated.div key={key} style={props}>
+
+    const { darkMode } = useContext(ThemeContext)
+
+    return itemTransitions.map(({ item, key, props: animation }) => (
+        <animated.div key={key} style={animation}>
             <Card canHover={canClick} darkMode={darkMode} onClick={canClick ? () => click(item) : null}>
                 <Text darkMode={darkMode} bold>{titleVarName && item[titleVarName]}</Text>
                 <Text darkMode={darkMode}>{descriptionVarName && item[descriptionVarName]}</Text>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components';
 import useMeasure from './../hooks/useMeasure'
 import PropTypes from 'prop-types'
@@ -9,10 +9,11 @@ import { darkBorderColor, darkTextColor, darkCardBackground } from './../../styl
 import Button from './Button';
 import { buttons } from '../../styles/Colors';
 import Text from './Text';
+import { ThemeContext } from '../../App';
 
 
 
-const Accordion = ({ darkMode, children, on, toggle, buttonTitle, centered, block, disabled, type }) => {
+const Accordion = ({ children, on, toggle, buttonTitle, centered, block, disabled, type }) => {
     const [bind, { height, top }] = useMeasure()
     const accordionAnimation = useSpring({
         overflow: 'hidden',
@@ -25,6 +26,7 @@ const Accordion = ({ darkMode, children, on, toggle, buttonTitle, centered, bloc
         flex: 1,
         display: 'flex'
     })
+    const { darkMode } = useContext(ThemeContext)
     return (
         <AccordionFrame darkMode={darkMode} centered={centered} block={block}>
             <AccordionHeader disabled={disabled} type={type} onClick={() => toggle(!on)}>

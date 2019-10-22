@@ -17,7 +17,7 @@ import List from './components/UI/List';
 import { animated, useTransition } from 'react-spring'
 import Row from './components/UI/Row';
 
-const Context = React.createContext()
+export const ThemeContext = React.createContext()
 
 function App() {
 	//GLOBAL STATE
@@ -42,113 +42,110 @@ function App() {
 	//MUTATIONS
 	const [createUser, createUserResponse] = useMutation(createNewUser)
 	return (
-		<Context.Provider value={context}>
-
-			<Container darkMode={darkMode}>
-				<Text darkMode={darkMode} isTitle bold>Framework Starter
+		<ThemeContext.Provider value={context}>
+			<NavBar />
+			<Container>
+				<Text isTitle bold>Framework Starter
 					<span role="img" aria-label="rocket">🚀</span>
 				</Text>
-				<Text darkMode={darkMode} isTitle bold centered>Text</Text>
-				<Text darkMode={darkMode}>Deus dormit Et liberi ignem faciunt Numquam extinguunt Ne expergisci possint Omnia dividit Tragedia coram Amandum quae Et nocte perpetua In desperatione Aurora videre potest Mane tempus expergiscendi</Text>
-
-				<Text centered darkMode={darkMode} isTitle bold>Toggle</Text>
-
+				<Text isTitle bold centered>Text</Text>
+				<Text >Deus dormit Et liberi ignem faciunt Numquam extinguunt Ne expergisci possint Omnia dividit Tragedia coram Amandum quae Et nocte perpetua In desperatione Aurora videre potest Mane tempus expergiscendi</Text>
+				<Text centered isTitle bold>Toggle</Text>
 				<Toggle
 					position='center'
-					darkMode={darkMode}
+
 					text='Dark Mode'
 					checked={darkMode}
 					onClick={() => setContext({ darkMode: !darkMode })} />
 
 				<Accordion
 					type='warning'
-					darkMode={darkMode}
 					buttonTitle='Accordion'
 					toggle={accordionToggle}
 					on={accordionOn}>
 					<Row>
 						<Button
 							position='center'
-							darkMode={darkMode}
+
 							type='confirm'
 							onClick={() => alert('Click')}
 						>confirm</Button>
 						<Button
 							position='center'
-							darkMode={darkMode}
+
 							type='warning'
 							onClick={() => alert('Click')}
 						>warning</Button>
 						<Button
 							position='center'
-							darkMode={darkMode}
+
 							type='danger'
 							onClick={() => alert('Click')}
 						>danger</Button>
 						<Button
 							position='center'
-							darkMode={darkMode}
+
 							type='info'
 							onClick={() => alert('Click')}
 						>info</Button>
 						<Button
 							position='center'
-							darkMode={darkMode}
+
 							type='default'
 							onClick={() => alert('Click')}
 						>default</Button>
 						<Button
 							position='center'
-							darkMode={darkMode}
+
 							type='light'
 							onClick={() => alert('Click')}
 						>light</Button>
 						<Button
 							position='center'
-							darkMode={darkMode}
+
 							type='dark'
 							onClick={() => alert('Click')}
 						>dark</Button>
 					</Row>
 					<Button
 						position='full'
-						darkMode={darkMode}
+
 						type='confirm'
 						onClick={() => alert('Click')}
 					>Full Confirm Button</Button>
 					<Button
 						position='full'
-						darkMode={darkMode}
+
 						type='warning'
 						onClick={() => alert('Click')}
 					>Full Warning Button</Button>
 					<Button
 						position='full'
-						darkMode={darkMode}
+
 						type='danger'
 						onClick={() => alert('Click')}
 					>Full Danger Button</Button>
 					<Button
 						position='full'
-						darkMode={darkMode}
+
 						type='info'
 						onClick={() => alert('Click')}
 					>Full Info Button</Button>
 					<Button
 						position='full'
-						darkMode={darkMode}
+
 						type='default'
 						onClick={() => alert('Click')}
 					>Full Default Button</Button>
 					<Button
 						position='full'
-						darkMode={darkMode}
+
 						type='light'
 						onClick={() => alert('Click')}
 					>Full Light Button</Button>
 					<Button
 						position='full'
-						darkMode={darkMode}
+
 						type='dark'
 						onClick={() => alert('Click')}
 					>Full Dark Button</Button>
@@ -157,7 +154,7 @@ function App() {
 
 				<Button
 					position='full'
-					darkMode={darkMode}
+
 					type='info'
 					onClick={() => getUsers()}
 				>Get Users</Button>
@@ -166,7 +163,7 @@ function App() {
 					type='confirm'
 					block
 					buttonTitle='Toggle Form'
-					darkMode={darkMode}
+
 					on={formOn}
 					toggle={formToggle}>
 					<form id='form1' style={{ flex: 1 }} onSubmit={e => {
@@ -178,21 +175,21 @@ function App() {
 					}}>
 						<Input
 							block
-							darkMode={darkMode}
+
 							placeholder='Username'
 							value={username}
 							onChange={(e) => setUsername(e.target.value)} />
 
 						<Input
 							block
-							darkMode={darkMode}
+
 							placeholder='Email'
 							value={email}
 							onChange={(e) => setEmail(e.target.value)} />
 
 						<Input
 							block
-							darkMode={darkMode}
+
 							type='password'
 							placeholder='Senha'
 							value={password}
@@ -200,7 +197,7 @@ function App() {
 
 						<Button
 							position='center'
-							darkMode={darkMode}
+
 							type='confirm'
 							form='form1'
 							value="Submit"
@@ -220,7 +217,7 @@ function App() {
 
 				{
 					userLoading ?
-						<Text darkMode={darkMode} bold isTitle centered>Loading...</Text>
+						<Text bold isTitle centered>Loading...</Text>
 						: userError ?
 							<Text>Error</Text>
 							:
@@ -229,12 +226,12 @@ function App() {
 								canClick
 								click={(item) => console.log('Clicou: ', item)}
 								array={userData.readAllUsers}
-								darkMode={darkMode}
+
 								titleVarName='username'
 								descriptionVarName='email' />
 				}
 			</Container>
-		</Context.Provider>
+		</ThemeContext.Provider>
 	)
 }
 

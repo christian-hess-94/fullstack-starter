@@ -1,16 +1,17 @@
 /* eslint-disable default-case */
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 import { buttons } from '../../styles/Colors';
 import { borderRadius, margin, padding, borderWidth } from '../../styles/Dimens';
-import { lightInputTextColor, lightBorderColor, lightCardBackground } from '../../styles/LightModeColors';
-import { darkInputTextColor, darkBorderColor, darkCardBackground } from '../../styles/DarkModeColors';
+import { lightInputTextColor, lightBorderColor, lightCardBackground, lightInputPlaceholderColor } from '../../styles/LightModeColors';
+import { darkInputTextColor, darkBorderColor, darkCardBackground, darkInputPlaceholderColor } from '../../styles/DarkModeColors';
 import { useSpring, animated } from 'react-spring';
+import { ThemeContext } from '../../App';
 
 const Toggle = (props) => {
-    const { checked, onClick, text, darkMode, position } = props
+    const { checked, onClick, text, position } = props
 
     const toggleAnimation = useSpring({
         width: 15,
@@ -20,12 +21,14 @@ const Toggle = (props) => {
         transform: checked ? 'translate3d(25px, 0, 0)' : 'translate3d(0px, 0, 0)'
     })
 
+    const { darkMode } = useContext(ThemeContext)
+
     return (
         <ToggleFrame position={position} darkMode={darkMode} onClick={() => onClick()}>
             <ToggleText darkMode={darkMode}>{text}</ToggleText>
-            <ToggleOutline>
-                <animated.div style={toggleAnimation} />
-            </ToggleOutline>
+            <ToggleSliderBackground darkMode={darkMode}>
+                <ToggleSlider style={toggleAnimation} />
+            </ToggleSliderBackground>
         </ToggleFrame>
     )
 }
@@ -60,14 +63,17 @@ const ToggleText = styled.span`
     font-weight: bold;
 `
 
-const ToggleOutline = styled.div`
+const ToggleSliderBackground = styled.div`
     border: ${borderWidth} solid ${props => props.darkMode ? darkBorderColor : lightBorderColor};
     width: 40px;
     border-radius: ${borderRadius}px;
     margin: ${margin}px 0px;
     padding: 2px;
-    background-color: ${props => props.darkMode ? darkBorderColor : lightBorderColor};
+    background-color: ${props => props.darkMode ? lightInputPlaceholderColor : darkInputPlaceholderColor};
     transition: all 500ms ease;
 `
+
+const ToggleSlider = animated.div
+
 
 export default Toggle

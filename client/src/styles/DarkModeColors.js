@@ -17,4 +17,4 @@ export const darkInputBackgroundColorFocus = '#787878'
 //Button
 export const darkButtonTextColor = '#e5e5e5'
 //Card
-export const darkCardBackground = '#555'
+export const darkCardBackground = '#555555'
