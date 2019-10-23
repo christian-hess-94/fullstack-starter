@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+require('dotenv').config()
 const UserModel = (sequelize, DataTypes) => {
 	const User = sequelize.define('user', {
 		username: {
@@ -50,7 +51,10 @@ const UserModel = (sequelize, DataTypes) => {
 		role: {
 			type: DataTypes.STRING,
 		},
-	})
+	},
+		{
+			schema: process.env.SCHEMA_NAME
+		})
 
 	User.associate = (models) => {
 		User.hasMany(models.Role, { onDelete: 'CASCADE' })

@@ -6,7 +6,7 @@ export const paddingHorizontal = 32 //export const paddingHorizontal = 32
 export const paddingVertical = 4 //export const paddingVertical = 4
 export const margin = 8 //export const margin = 8
 export const borderWidth = 1 //export const borderWidth = 1
-export const borderRadius = 2 //export const borderRadius = 25
+export const borderRadius = 25 //export const borderRadius = 25
 
 //Tamanho das fontes
 export const titleFontSize = 20 //export const titleFontSize = 30

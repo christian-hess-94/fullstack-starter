@@ -9,7 +9,7 @@ import Container from './components/UI/Container';
 import Button from './components/UI/Button';
 import Text from './components/UI/Text';
 import Card from './components/UI/Card';
-import NavBar from './components/UI/NavBar';
+import NavBar from './pages/menu/NavBar';
 import { colorPrimary } from './styles/Colors';
 import Toggle from './components/UI/Toggle';
 import Accordion from './components/UI/Accordion';

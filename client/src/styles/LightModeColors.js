@@ -4,6 +4,10 @@ export const lightNavbarBackground = '#bbb'
 export const lightBorderColor = '#aaa'
 export const lightBoxShadow = '#656565'
 
+//Navbar
+export const lightMenuIconColor = '#dddddd'
+export const lightMenuIconHover = '#aaaaaa'
+
 //Text
 export const lightTextColor = '#080914'
 //Title
