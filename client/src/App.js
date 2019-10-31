@@ -43,9 +43,9 @@ function App() {
 	const [createUser, createUserResponse] = useMutation(createNewUser)
 	return (
 		<ThemeContext.Provider value={context}>
-			<NavBar />
 			<Container>
-				<Text isTitle bold>Framework Starter
+				<NavBar />
+				{/* <Text isTitle bold>Framework Starter
 					<span role="img" aria-label="rocket">🚀</span>
 				</Text>
 				<Text isTitle bold centered>Text</Text>
@@ -225,7 +225,7 @@ function App() {
 
 								titleVarName='username'
 								descriptionVarName='email' />
-				}
+				} */}
 			</Container>
 		</ThemeContext.Provider>
 	)

@@ -6,7 +6,7 @@ export const darkBoxShadow = '#aaa'
 //Navbar
 export const darkNavbarBackground = '#676767'
 export const darkDrawerBackground = '#676767'
-export const darkDrawerIconColor = '#222222'
+export const darkDrawerIconColor = '#01853B'
 export const darkMenuIconHover = '#656565'
 
 

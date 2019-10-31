@@ -2,6 +2,15 @@
 export const colorPrimary = '#005D00'
 export const colorAccent = '#F06D00'
 
+export const cearaDarkGreen = '#01853B'
+export const cearaLightGreen = '#07A54C'
+
+export const shadow = '5px 5px 10px #00000055'
+
+
+export const backgroundGradientLight = '#F5F7FA'
+export const backgroundGradientDark = '#D2D2D2'
+
 //Cor de status
 
 export const buttons = {

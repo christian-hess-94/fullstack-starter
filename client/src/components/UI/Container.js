@@ -21,14 +21,12 @@ Container.propTypes = {
 const ContainerStyle = styled.div`
     display: flex;
     background: ${props => props.darkMode ? darkBackground : lightBackground};
-    padding: ${padding}px ;
-    padding-top: ${padding * 2 + margin * 2 + titleFontSize}px;
+    padding: 40px ;
     transition: all 500ms ease;
     flex-direction: column;
     height: 100%;
     min-height : 100vh;
     width: 100%;
-
     @media (max-width: 500px) {
         padding-top: 0px;
         padding-bottom: ${padding * 2 + margin * 2 + titleFontSize}px;
